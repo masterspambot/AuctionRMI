@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public interface IAuctionServer extends Remote {
 
-    public void placeItemForBid(String ownerName, String itemName, String itemDesc, double startBid, int auctionTime) 
+    public void placeItemForBid(String ownerName, String itemName, String itemDesc, double startBid, double maxBid, int auctionTime) 
 		throws RemoteException;
 		
 	public void bidOnItem(String bidderName, String itemName, double bid) 

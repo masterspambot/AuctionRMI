@@ -18,12 +18,12 @@ class AuctionServerImpl implements IAuctionServer{
     public AuctionServerImpl() throws RemoteException {
         super();
         items = new ArrayList<>();
-        items.add(new Item("Jan Kowalski", "Dildo analne", "Bardzo dobre", 20.0, 14));
+        items.add(new Item("Jan Kowalski", "Dildo analne", "Bardzo dobre", 20.0, 30.0, 14));
     }
 
     @Override
-    public void placeItemForBid(String ownerName, String itemName, String itemDesc, double startBid, int auctionTime) throws RemoteException {
-        items.add(new Item(ownerName, itemName, itemDesc, startBid, auctionTime));
+    public void placeItemForBid(String ownerName, String itemName, String itemDesc, double startBid, double maxBid, int auctionTime) throws RemoteException {
+        items.add(new Item(ownerName, itemName, itemDesc, startBid, maxBid, auctionTime));
     }
 
     @Override
