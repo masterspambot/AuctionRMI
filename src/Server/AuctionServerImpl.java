@@ -28,7 +28,12 @@ class AuctionServerImpl implements IAuctionServer{
 
     @Override
     public void bidOnItem(String bidderName, String itemName, double bid) throws RemoteException {
-        throw new RemoteException("Not supported yet.");
+        for(Item item:items){
+            if(item.getItemName().matches(itemName) && item.getCurrentBid() < bid){
+                item.setCurrentBid(bid);
+                item.setWinnerName(bidderName);
+            }
+        }
     }
 
     @Override

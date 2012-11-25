@@ -5,6 +5,7 @@ import java.io.*;
 public class Item implements Serializable {
 
     private String ownerName;
+    private String winnerName;
     private String itemName;
     private String itemDesc;
     private double startBid;
@@ -14,9 +15,10 @@ public class Item implements Serializable {
     
     public Item() {
         ownerName = "";
+        winnerName = "";
         itemName = "";
         itemDesc = "";
-        startBid = .0;
+        startBid = maxBid = currentBid = .0;
         auctionTime = 0;
     }
 
@@ -36,6 +38,14 @@ public class Item implements Serializable {
 
     public String getOwnerName() {
         return this.ownerName;
+    }
+    
+    public void setWinnerName(String val) {
+        this.winnerName = val;
+    }
+
+    public String getWinnerName() {
+        return this.winnerName;
     }
 
     public void setItemName(String val) {
@@ -74,7 +84,7 @@ public class Item implements Serializable {
         this.currentBid = val;
     }
 
-    public double setCurrentBid() {
+    public double getCurrentBid() {
         return this.currentBid;
     }  
 
