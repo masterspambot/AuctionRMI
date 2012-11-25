@@ -25,6 +25,9 @@ public class AuctionClient {
   public void bidOnItem(String bidderName, String itemName, double bid) throws RemoteException{
       ser.bidOnItem(bidderName, itemName, bid);
   }
+  public void registerListener(String al, String itemName) throws RemoteException{
+      
+  }
   
   public void getItems() throws RemoteException{
     
@@ -41,7 +44,6 @@ public class AuctionClient {
   }
   
   public void printHelp(){
-      System.out.println("Auction RMI v1");
       System.out.println("Type a command to proceed:");
       System.out.println("1 - Add a new auction");
       System.out.println("2 - Bid on an item");
@@ -50,6 +52,7 @@ public class AuctionClient {
   }
 
   public static void main(String args[]) {
+    System.out.println("Auction RMI v1");
     if (args.length == 0 || !args[0].startsWith("rmi:")) {
       System.err.println("Usage: java AuctionClient rmi://host.domain:port/auction");
       return;   
@@ -59,13 +62,12 @@ public class AuctionClient {
         // The main app code
         AuctionClient client = new AuctionClient(args[0]);
         
-        client.printHelp();
-        
         String CurLine, ownerName, itemName, itemDesc;
         double bid;
         int auctionTime;
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         while (true){
+            client.printHelp();
             CurLine = in.readLine();
             switch (CurLine) {
                 case "1":
@@ -93,6 +95,13 @@ public class AuctionClient {
                 case "3":
                     client.getItems();
                     break;
+                case "4":
+                    System.out.println("Put Item name");
+                    itemName = in.readLine();
+                    client.registerListener(itemName, itemName);
+                    break;
+                case "q":
+                    return;
                 
             }
         }
