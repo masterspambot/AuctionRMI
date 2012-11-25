@@ -26,8 +26,8 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
         ser = (IAuctionServer) ro;
     }
 
-    public void placeItemForBid(String ownerName, String itemName, String itemDesc, double startBid, int auctionTime) throws RemoteException {
-        //ser.placeItemForBid(ownerName, itemName, itemDesc, startBid, auctionTime);
+    public void placeItemForBid(String ownerName, String itemName, String itemDesc, double startBid, double maxBid, int auctionTime) throws RemoteException {
+        ser.placeItemForBid(ownerName, itemName, itemDesc, startBid, maxBid, auctionTime);
     }
 
     public void bidOnItem(String bidderName, String itemName, double bid) throws RemoteException {
@@ -47,7 +47,9 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
             System.out.println("Item Name: " + item.getItemName());
             System.out.println("Item Description: " + item.getItemDesc());
             System.out.println("Start Bid: " + item.getStartBid());
+            System.out.println("Max Bid: " + item.getMaxBid());
             System.out.println("Auction Time: " + item.getAuctionTime());
+            System.out.println("Winner: " + item.getWinnerName());
             System.out.println("-----------------------------------------------");
         }
     }
@@ -60,7 +62,9 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
         System.out.println("Item Name: " + item.getItemName());
         System.out.println("Item Description: " + item.getItemDesc());
         System.out.println("Start Bid: " + item.getStartBid());
+        System.out.println("Max Bid: " + item.getMaxBid());
         System.out.println("Auction Time: " + item.getAuctionTime());
+        System.out.println("Winner: " + item.getWinnerName());
         System.out.println("###############################################");
     }
 
@@ -84,8 +88,8 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
             // The main app code
             AuctionClient client = new AuctionClient(args[0]);
 
-            String CurLine, ownerName, itemName, itemDesc;
-            double bid;
+            String CurLine, ownerName, itemName, itemDesc, tmp;
+            double bid, maxbid;
             int auctionTime;
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
             while (true) {
@@ -101,9 +105,16 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
                         itemDesc = in.readLine();
                         System.out.println("Put Starting bid");
                         bid = Double.parseDouble(in.readLine());
+                        System.out.println("Put Maximum bid (blank if not)");
+                        tmp = in.readLine();
+                        if(!"".equals(tmp)){
+                            maxbid = Double.parseDouble(tmp);
+                        }else{
+                            maxbid = .0;
+                        }
                         System.out.println("Put Time of auction (sec)");
                         auctionTime = Integer.parseInt(in.readLine());
-                        client.placeItemForBid(ownerName, itemName, itemDesc, bid, auctionTime);
+                        client.placeItemForBid(ownerName, itemName, itemDesc, bid, maxbid, auctionTime);
                         break;
                     case "2":
                         System.out.println("Put Owner name");
