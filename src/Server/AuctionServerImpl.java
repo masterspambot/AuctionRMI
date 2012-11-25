@@ -32,17 +32,22 @@ class AuctionServerImpl extends Observable implements IAuctionServer{
     public AuctionServerImpl() throws RemoteException {
         super();
         items = new ArrayList<>();
-        items.add(new Item("Jan Kowalski", "Dildo analne", "Bardzo dobre", 20.0, 14));
+        items.add(new Item("Jan Kowalski", "Dildo analne", "Bardzo dobre", 20.0, 30.0, 14));
     }
 
     @Override
-    public void placeItemForBid(String ownerName, String itemName, String itemDesc, double startBid, int auctionTime) throws RemoteException {
-        items.add(new Item(ownerName, itemName, itemDesc, startBid, auctionTime));
+    public void placeItemForBid(String ownerName, String itemName, String itemDesc, double startBid, double maxBid, int auctionTime) throws RemoteException {
+        items.add(new Item(ownerName, itemName, itemDesc, startBid, maxBid, auctionTime));
     }
 
     @Override
     public void bidOnItem(String bidderName, String itemName, double bid) throws RemoteException {
-        throw new RemoteException("Not supported yet.");
+        for(Item item:items){
+            if(item.getItemName().matches(itemName) && item.getCurrentBid() < bid){
+                item.setCurrentBid(bid);
+                item.setWinnerName(bidderName);
+            }
+        }
     }
 
     @Override

@@ -5,24 +5,30 @@ import java.io.*;
 public class Item implements Serializable {
 
     private String ownerName;
+    private String winnerName;
     private String itemName;
     private String itemDesc;
     private double startBid;
+    private double maxBid;
+    private double currentBid;
     private int auctionTime;
-
+    
     public Item() {
         ownerName = "";
+        winnerName = "";
         itemName = "";
         itemDesc = "";
-        startBid = .0;
+        startBid = maxBid = currentBid = .0;
         auctionTime = 0;
     }
 
-    public Item(String ownerName, String itemName, String itemDesc, double startBid, int auctionTime) {
+    public Item(String ownerName, String itemName, String itemDesc, double startBid, double maxBid, int auctionTime) {
         this.ownerName = ownerName;
         this.itemName = itemName;
         this.itemDesc = itemDesc;
         this.startBid = startBid;
+        this.maxBid = maxBid;
+        this.currentBid = startBid;
         this.auctionTime = auctionTime;
     }
 
@@ -32,6 +38,14 @@ public class Item implements Serializable {
 
     public String getOwnerName() {
         return this.ownerName;
+    }
+    
+    public void setWinnerName(String val) {
+        this.winnerName = val;
+    }
+
+    public String getWinnerName() {
+        return this.winnerName;
     }
 
     public void setItemName(String val) {
@@ -57,6 +71,22 @@ public class Item implements Serializable {
     public double getStartBid() {
         return this.startBid;
     }
+    
+    public void setMaxBid(double val) {
+        this.maxBid = val;
+    }
+
+    public double getMaxBid() {
+        return this.maxBid;
+    }
+    
+    public void setCurrentBid(double val) {
+        this.currentBid = val;
+    }
+
+    public double getCurrentBid() {
+        return this.currentBid;
+    }  
 
     public void setAuctionTime(int val) {
         this.auctionTime = val;

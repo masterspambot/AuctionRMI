@@ -27,7 +27,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
     }
 
     public void placeItemForBid(String ownerName, String itemName, String itemDesc, double startBid, int auctionTime) throws RemoteException {
-        ser.placeItemForBid(ownerName, itemName, itemDesc, startBid, auctionTime);
+        //ser.placeItemForBid(ownerName, itemName, itemDesc, startBid, auctionTime);
     }
 
     public void bidOnItem(String bidderName, String itemName, double bid) throws RemoteException {
