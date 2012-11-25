@@ -4,13 +4,13 @@ import java.rmi.*;
 import java.util.ArrayList;
 
 
-public class AuctionServerImpl implements IAuctionServer {
+public class AuctionServerImpl extends java.rmi.server.UnicastRemoteObject implements IAuctionServer{
   
   ArrayList<Item> items;
     
   public AuctionServerImpl() throws RemoteException {
     super();
-    items = new ArrayList<Item>(); // 1000 is max for this system
+    ArrayList<Item> items = new ArrayList(); // 1000 is max for this system
     items.add(new Item("Jan Kowalski", "Dildo analne", "Bardzo dobre", 20.0, 14));
     items.add(new Item("Jan Kowalski", "Dildo analne", "Bardzo dobre", 20.0, 14));
   }
@@ -28,6 +28,10 @@ public class AuctionServerImpl implements IAuctionServer {
 	public ArrayList<Item> getItems() throws RemoteException{
 		return items;
 	}
+
+    public void registerListener(IAuctionListener al, String itemName) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
 }
  

@@ -1,12 +1,8 @@
 package Server;
 
-import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
-import java.rmi.RemoteException;
-import java.rmi.RMISecurityManager;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.rmi.server.RemoteServer;
-import java.net.MalformedURLException;
 
 public class AuctionServer {
   public static void main(String[] args) {
