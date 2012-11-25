@@ -10,6 +10,7 @@ import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,7 +30,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
         super();
         ro = Naming.lookup(uri);
         ser = (IAuctionServer) ro;
-        HashMap<Item, String> bidList = new HashMap<Item,String>();
+        bidList = new HashMap<>();
     }
 
     public void placeItemForBid(String ownerName, String itemName, String itemDesc, double startBid, double maxBid, int auctionTime) throws RemoteException {
