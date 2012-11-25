@@ -9,7 +9,7 @@ public class AuctionServer {
     public static void main(String[] args) {
         //RemoteServer.setLog(System.err);
         try {
-            AuctionServerImpl servImpl = new AuctionServerImpl();
+            AuctionServerImpl servImpl = AuctionServerImplFactory.makeAuctionServerImpl();
             IAuctionServer servStub = (IAuctionServer) UnicastRemoteObject.exportObject(servImpl);
             Registry registry = LocateRegistry.getRegistry();
             registry.rebind("auction", servStub);

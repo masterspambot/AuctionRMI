@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-class AuctionServerImpl extends Observable implements IAuctionServer{
+final class AuctionServerImpl extends Observable implements IAuctionServer{
 
     private class WrappedObserver implements Observer, Serializable {
         private static final long serialVersionUID = 1L;
@@ -31,9 +31,21 @@ class AuctionServerImpl extends Observable implements IAuctionServer{
         }
     }
     
+    private static volatile AuctionServerImpl instance = null;
     private ArrayList<Item> items;
     
-    public AuctionServerImpl() throws RemoteException {
+    public static AuctionServerImpl getInstance() throws RemoteException {
+        if (instance == null) {
+            synchronized (AuctionServerImpl.class) {
+                if (instance == null) {
+                    instance = new AuctionServerImpl();
+                }
+            }
+        }
+        return instance;
+    }
+    
+    private AuctionServerImpl() throws RemoteException {
         super();
         items = new ArrayList<>();
         items.add(new Item("Jan Kowalski", "Dildo analne", "Bardzo dobre", 20.0, 30.0, 14));
