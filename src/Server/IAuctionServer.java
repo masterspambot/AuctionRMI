@@ -3,7 +3,7 @@ package Server;
 import java.rmi.*;
 import java.util.ArrayList;
 
-public interface IAuctionServer extends Remote  {
+public interface IAuctionServer extends Remote {
 
     public void placeItemForBid(String ownerName, String itemName, String itemDesc, double startBid, int auctionTime) 
 		throws RemoteException;

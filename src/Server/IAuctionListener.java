@@ -6,17 +6,16 @@ package Server;
 
 import java.rmi.*;
 import java.util.ArrayList;
-
 /**
  *
  * @author Ijin
  */
-class IAuctionListener extends java.rmi.server.UnicastRemoteObject implements IAuctionServer {
-
+class IAuctionListener extends java.rmi.server.UnicastRemoteObject implements IAuctionServer{
+    
     private ArrayList<Item> items;
-
+    
     public IAuctionListener() throws RemoteException {
-        super();
+          super();
         ArrayList<Item> items = new ArrayList(); // 1000 is max for this system
         items.add(new Item("Jan Kowalski", "Dildo analne", "Bardzo dobre", 20.0, 14));
         items.add(new Item("Jan Kowalski", "Dildo analne", "Bardzo dobre", 20.0, 14));
