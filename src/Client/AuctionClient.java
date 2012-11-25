@@ -10,7 +10,6 @@ import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,7 +18,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
     Remote ro;
     IAuctionServer ser;
     private static final long serialVersionUID = 1L;
-    HashMap<Item, String> bidList;
+    HashMap<String, String> bidList;
     
     
     protected AuctionClient() throws RemoteException {
@@ -54,7 +53,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
             }
               for(Item item: ser.getItems()){
                 if(item.getItemName().equals(itemName)){
-                    bidList.put(item,bidderName);
+                    bidList.put(item.getItemName(),bidderName);
                     break;
                 }                    
             }          
