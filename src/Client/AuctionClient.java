@@ -18,8 +18,8 @@ public class AuctionClient implements IAuctionListener{
     ser = (IAuctionServer) ro;
   }
   
-  public void placeItemForBid(String ownerName, String itemName, String itemDesc, double startBid, int auctionTime) throws RemoteException{
-    ser.placeItemForBid(ownerName, itemName, itemDesc, startBid, auctionTime);
+  public void placeItemForBid(String ownerName, String itemName, String itemDesc, double startBid, double maxBid, int auctionTime) throws RemoteException{
+    ser.placeItemForBid(ownerName, itemName, itemDesc, startBid, maxBid, auctionTime);
   }
   
   public void bidOnItem(String bidderName, String itemName, double bid) throws RemoteException{
@@ -76,7 +76,7 @@ public class AuctionClient implements IAuctionListener{
         AuctionClient client = new AuctionClient(args[0]);
         
         String CurLine, ownerName, itemName, itemDesc;
-        double bid;
+        double bid, startBid, maxBid;
         int auctionTime;
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         while (true){
@@ -91,10 +91,12 @@ public class AuctionClient implements IAuctionListener{
                     System.out.println("Put Item description");
                     itemDesc = in.readLine();
                     System.out.println("Put Starting bid");
-                    bid = Double.parseDouble(in.readLine());
+                    startBid = Double.parseDouble(in.readLine());                    
+                    System.out.println("Put Finishing bid");
+                    maxBid = Double.parseDouble(in.readLine());
                     System.out.println("Put Time of auction (sec)");
                     auctionTime = Integer.parseInt(in.readLine()); 
-                    client.placeItemForBid(ownerName, itemName, itemDesc, bid, auctionTime);
+                    client.placeItemForBid(ownerName, itemName, itemDesc, startBid, maxBid, auctionTime);
                     break;
                 case "2":
                     System.out.println("Put Owner name");
