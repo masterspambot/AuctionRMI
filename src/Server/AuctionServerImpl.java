@@ -34,6 +34,8 @@ final class AuctionServerImpl extends Observable implements IAuctionServer{
     private static volatile AuctionServerImpl instance = null;
     private ArrayList<Item> items;
     
+    // source: http://en.wikipedia.org/wiki/Singleton_pattern
+    // "should not be used prior to J2SE 5.0"
     public static AuctionServerImpl getInstance() throws RemoteException {
         if (instance == null) {
             synchronized (AuctionServerImpl.class) {
