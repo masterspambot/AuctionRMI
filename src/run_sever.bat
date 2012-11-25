@@ -1,3 +1,5 @@
+setlocal
+SET PATH = "%PATH%;C:\Program Files (x86)\Java\jre6\bin"
 del /S *.class
 start rmiregistry
 javac Server/AuctionServerImpl.java
