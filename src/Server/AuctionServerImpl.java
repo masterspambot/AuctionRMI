@@ -1,17 +1,31 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Server;
 
 import Client.IAuctionListener;
+import java.io.Serializable;
 import java.rmi.*;
 import java.util.ArrayList;
-/**
- *
- * @author Ijin
- */
-class AuctionServerImpl implements IAuctionServer{
+import java.util.Observable;
+import java.util.Observer;
+
+class AuctionServerImpl extends Observable implements IAuctionServer{
+
+    private class WrappedObserver implements Observer, Serializable {
+        private static final long serialVersionUID = 1L;
+        private IAuctionListener ro = null;
+
+        public WrappedObserver(IAuctionListener ro) {
+            this.ro = ro;
+        }
+
+        @Override
+        public void update(Observable o, Object arg) {
+            try {
+                ro.update((Item)arg);
+            } catch (RemoteException err) {
+                System.out.println("Remote exception observer:" + this);
+            }
+        }
+    }
     
     private ArrayList<Item> items;
     
@@ -39,5 +53,9 @@ class AuctionServerImpl implements IAuctionServer{
     @Override
     public void registerListener(IAuctionListener al, String itemName) throws RemoteException {
         System.out.println("Registered new client for: "+itemName);
+        WrappedObserver mo = new WrappedObserver(al);
+        addObserver(mo);
+        setChanged();
+        notifyObservers(items.get(0));
     }
 }
