@@ -9,7 +9,7 @@ import java.net.*;
 import java.rmi.*;
 import java.util.ArrayList;
 
-public class AuctionClient {
+public class AuctionClient implements IAuctionListener{
   Remote ro;
   IAuctionServer ser;
 
@@ -25,9 +25,10 @@ public class AuctionClient {
   public void bidOnItem(String bidderName, String itemName, double bid) throws RemoteException{
       ser.bidOnItem(bidderName, itemName, bid);
   }
-  public void registerListener(String al, String itemName) throws RemoteException{
-      
+  public void registerListener(String itemName) throws RemoteException{
+      ser.registerListener(this, itemName);
   }
+  
   
   public void getItems() throws RemoteException{
     
@@ -41,6 +42,18 @@ public class AuctionClient {
       System.out.println("Auction Time: "+item.getAuctionTime());
       System.out.println("-----------------------------------------------");
     }
+  }
+  
+  @Override
+  public void update(Item item) throws RemoteException {
+      System.out.println("###############################################");
+      System.out.println("An auction is updated");
+      System.out.println("Owner: "+item.getOwnerName());
+      System.out.println("Item Name: "+item.getItemName());
+      System.out.println("Item Description: "+item.getItemDesc());
+      System.out.println("Start Bid: "+item.getStartBid());
+      System.out.println("Auction Time: "+item.getAuctionTime());
+      System.out.println("###############################################");
   }
   
   public void printHelp(){
@@ -98,7 +111,7 @@ public class AuctionClient {
                 case "4":
                     System.out.println("Put Item name");
                     itemName = in.readLine();
-                    client.registerListener(itemName, itemName);
+                    client.registerListener(itemName);
                     break;
                 case "q":
                     return;
