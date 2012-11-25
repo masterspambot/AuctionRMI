@@ -104,7 +104,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
         System.out.println("Auction Time: " + item.getAuctionTime());
         System.out.println("Winner: " + item.getWinnerName());
         System.out.println("###############################################");
-        if(bidList.containsKey(item)){
+        if(bidList.containsKey(item.getItemName())){
             bidAndRoll(item, bidList.get(item));
         }
     }
