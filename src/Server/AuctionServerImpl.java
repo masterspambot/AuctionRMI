@@ -10,11 +10,11 @@ import java.util.ArrayList;
  *
  * @author Ijin
  */
-class IAuctionListener extends java.rmi.server.UnicastRemoteObject implements IAuctionServer{
+class AuctionServerImpl extends java.rmi.server.UnicastRemoteObject implements IAuctionServer{
     
     private ArrayList<Item> items;
     
-    public IAuctionListener() throws RemoteException {
+    public AuctionServerImpl() throws RemoteException {
           super();
         ArrayList<Item> items = new ArrayList(); // 1000 is max for this system
         items.add(new Item("Jan Kowalski", "Dildo analne", "Bardzo dobre", 20.0, 14));
@@ -37,7 +37,7 @@ class IAuctionListener extends java.rmi.server.UnicastRemoteObject implements IA
     }
 
     @Override
-    public void registerListener(IAuctionListener al, String itemName) throws RemoteException {
+    public void registerListener(AuctionServerImpl al, String itemName) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

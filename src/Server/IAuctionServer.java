@@ -13,5 +13,5 @@ public interface IAuctionServer extends Remote {
 	
 	public ArrayList<Item> getItems() throws RemoteException;
 		
-	public void registerListener(IAuctionListener al, String itemName) throws RemoteException;
+	public void registerListener(AuctionServerImpl al, String itemName) throws RemoteException;
 }
