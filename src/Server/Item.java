@@ -2,6 +2,10 @@ package Server;
 
 import java.io.*;
 
+/**
+ * Represents an auction item.
+ * 
+ */
 public class Item implements Serializable {
 
     private String ownerName;
@@ -12,7 +16,7 @@ public class Item implements Serializable {
     private double maxBid;
     private double currentBid;
     private int auctionTime;
-    
+        
     public Item() {
         ownerName = "";
         winnerName = "";
