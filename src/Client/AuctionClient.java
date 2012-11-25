@@ -106,15 +106,10 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
         System.out.println("###############################################");
         if(!item.getWinnerName().matches(bidList.get(item))){
             if(bidList.containsKey(item.getItemName())){
-                bidAndRoll(item, bidList.get(item));
-                
+                bidOnItem(bidList.get(item), item.getItemName(), item.getCurrentBid()+1);
+                System.out.println("Aution: "+item.getItemName()+" auto-bidded to "+item.getCurrentBid()+1 );
             }
         }
-    }
-    
-    public void bidAndRoll(Item item, String biderName) throws RemoteException{
-      bidOnItem(biderName, item.getItemName(), item.getCurrentBid()+1);
-      System.out.println("Aution: "+item.getItemName()+" auto-bidded to "+item.getCurrentBid()+1 );
     }
 
     public void printHelp() {

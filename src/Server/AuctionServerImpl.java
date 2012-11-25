@@ -73,7 +73,7 @@ final class AuctionServerImpl extends Observable implements IAuctionServer{
         items = new ArrayList<>();
         items.add(new Item("Jan Marcinowski", "Budzik", "Dobry budzik.", 20.0, 30.0, 14));
         items.add(new Item("Piotr Piotrowski", "Laptop", "Kiepski laptop z 2007 roku.", 10.0, 30.0, 30));
-        items.add(new Item("Krzysztof Jackowski", "Kubek", "Bardzo pojemny pojemnik na napoje.", 1.0, 30.0, 30));
+        items.add(new Item("Krzysztof Jackowski", "Kubek", "Bardzo pojemny pojemnik na ciecze, zele i zole.", 1.0, 30.0, 30));
     }
     
     /**

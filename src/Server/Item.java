@@ -34,6 +34,7 @@ public class Item implements Serializable {
         this.maxBid = maxBid;
         this.currentBid = startBid;
         this.auctionTime = auctionTime;
+        this.winnerName = "";
     }
 
     public void setOwnerName(String val) {
