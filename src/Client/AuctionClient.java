@@ -174,7 +174,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
         System.out.println("1 - Add a new auction");
         System.out.println("2 - Bid on an item");
         System.out.println("3 - Print items");
-        System.out.println("4 - Adds listener");
+        System.out.println("4 - Add listener");
     }
     
     /**
