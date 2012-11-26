@@ -13,6 +13,10 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Main client class which is responsible for user interaction and 
+ * communication with server.
+ */
 public class AuctionClient extends UnicastRemoteObject implements IAuctionListener{
 
     Remote ro;
@@ -25,21 +29,56 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
         super();
     }
 
+    /**
+     * Creates client object and initializes server connection.
+     * 
+     * @param uri URI to server
+     * @throws RemoteException
+     * @throws MalformedURLException
+     * @throws NotBoundException
+     */
     public AuctionClient(String uri) throws RemoteException, MalformedURLException, NotBoundException {
         super();
         ro = Naming.lookup(uri);
         ser = (IAuctionServer) ro;
         bidList = new HashMap<>();
     }
-
+    
+    /**
+     * Adds a new auction.
+     * 
+     * @param ownerName     Owner name
+     * @param itemName      Item name
+     * @param itemDesc      Item description
+     * @param startBid      Start bid
+     * @param maxBid        Maximum bid
+     * @param auctionTime   Auction time
+     * @throws RemoteException 
+     */
     public void placeItemForBid(String ownerName, String itemName, String itemDesc, double startBid, double maxBid, int auctionTime) throws RemoteException {
         ser.placeItemForBid(ownerName, itemName, itemDesc, startBid, maxBid, auctionTime);
     }
-
+    
+    /**
+     * Bids an auction described by a name.
+     * 
+     * @param bidderName    Name of the bidder
+     * @param itemName      Name of the item
+     * @param bid           Amount of money
+     * @throws RemoteException 
+     */
     public void bidOnItem(String bidderName, String itemName, double bid) throws RemoteException {
         ser.bidOnItem(bidderName, itemName, bid);
     }
-
+    
+    /**
+     * Registers client to observe an item. If the item is changed, update 
+     * method if called.
+     * 
+     * @param itemName  Name of the item
+     * @param strategy  Strategy of automatic bidding
+     * @throws RemoteException 
+     */
     public void registerListener(String itemName, Integer strategy) throws RemoteException {
         ser.registerListener(this, itemName);
         if(strategy == 1){
@@ -75,7 +114,12 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
             }
         }
     }
- 
+    
+    /**
+     * Gets list of items from server and prints it on a screen.
+     * 
+     * @throws RemoteException 
+     */
     public void getItems() throws RemoteException {
 
         ArrayList<Item> items = ser.getItems();
@@ -91,7 +135,13 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
             System.out.println("-----------------------------------------------");
         }
     }
-
+    
+    /**
+     * Update method which is called on server side when an item is changed.
+     * 
+     * @param item  The item which was changed
+     * @throws RemoteException 
+     */
     @Override
     public void update(Item item) throws RemoteException {
         System.out.println("###############################################");
@@ -111,7 +161,10 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
             }
         }
     }
-
+    
+    /**
+     * Prints available commands which client can run.
+     */
     public void printHelp() {
         System.out.println("Type a command to proceed:");
         System.out.println("1 - Add a new auction");
@@ -119,7 +172,12 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
         System.out.println("3 - Print items");
         System.out.println("4 - Adds listener");
     }
-
+    
+    /**
+     * The main client application.
+     * 
+     * @param args System arguments. The first should be the server URI.
+     */
     public static void main(String args[]) {
         System.out.println("Auction RMI v1");
         if (args.length == 0 || !args[0].startsWith("rmi:")) {
@@ -128,7 +186,6 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
         }
 
         try {
-            // The main app code
             AuctionClient client = new AuctionClient(args[0]);
 
             String CurLine, ownerName, itemName, itemDesc, tmp;
