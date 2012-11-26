@@ -103,14 +103,17 @@ final class AuctionServerImpl extends Observable implements IAuctionServer{
     @Override
     public void bidOnItem(String bidderName, String itemName, double bid) throws RemoteException {
         for(Item item:items){
-            if(item.getItemName().matches(itemName)  && item.getCurrentBid() < bid){
-                item.setCurrentBid(bid);
-                item.setWinnerName(bidderName);
-                if(item.getMaxBid() <= bid){
-                    item.setAuctionTime(0);
+            if(item.getItemName().matches(itemName)){
+                if (item.getCurrentBid() < bid){
+                    item.setCurrentBid(bid);
+                    item.setWinnerName(bidderName);
+                    if(item.getMaxBid() <= bid){
+                        item.setAuctionTime(0);
+                    }
+                    setChanged();
+                    notifyObservers(item);
                 }
-                setChanged();
-                notifyObservers(item);
+                break;
             }
         }
     }

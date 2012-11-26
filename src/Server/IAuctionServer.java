@@ -15,17 +15,17 @@ public interface IAuctionServer extends Remote {
      * 
      * @param ownerName owner name
      * @param itemName  item name
-     * @param itemDesc  iten description
+     * @param itemDesc  item description
      * @param startBid  start bid
      * @param maxBid    max bid
-     * @param auctionTime aution time
+     * @param auctionTime auction time
      * @throws RemoteException 
      */
     public void placeItemForBid(String ownerName, String itemName, String itemDesc, double startBid, double maxBid, int auctionTime) 
 	throws RemoteException;
 		
     /**
-     * Bids one Item. If an Item is changed, observers are noitfied.
+     * Bids one Item. If an Item is changed, observers are notified.
      * 
      * @param bidderName    name of the bidder
      * @param itemName      name of the item
