@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Client;
 
 import Server.Item;
@@ -14,12 +10,19 @@ import javax.swing.Timer;
 
 /**
  *
- * @author Ijin
+ * Class responisible for creating biding thread for WaitAndBid strategy
  */
 public class WaitAndBid extends AuctionClient implements ActionListener, Runnable{
     private Item item;
     private String bidderName;
     
+    /**
+     * Constructor of the class
+     * 
+     * @param item Item to bid
+     * @param bidderName Author of the bid
+     * @throws RemoteException
+     */
     public WaitAndBid(Item item, String bidderName) throws RemoteException{
         this.item = item;
         this.bidderName = bidderName;
