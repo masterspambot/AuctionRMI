@@ -1,5 +1,6 @@
 package Client;
 
+import Server.IAuctionServer;
 import Server.Item;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +24,8 @@ public class WaitAndBid extends AuctionClient implements ActionListener, Runnabl
      * @param bidderName Author of the bid
      * @throws RemoteException
      */
-    public WaitAndBid(Item item, String bidderName) throws RemoteException{
+    public WaitAndBid(IAuctionServer s, Item item, String bidderName) throws RemoteException{
+        this.ser = s;
         this.item = item;
         this.bidderName = bidderName;
         Thread t = new Thread(this);
@@ -34,6 +36,7 @@ public class WaitAndBid extends AuctionClient implements ActionListener, Runnabl
     public void actionPerformed(ActionEvent e) {
         try {
             bidOnItem(this.bidderName, this.item.getItemName(), this.item.getMaxBid());
+            System.out.println("Auction: " + item.getItemName()+ " bidded to maxBid!");
         } catch (RemoteException ex) {
             Logger.getLogger(WaitAndBid.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -19,7 +19,7 @@ public class Item implements Serializable {
         
     public Item() {
         ownerName = "";
-        winnerName = "";
+        winnerName = "none";
         itemName = "";
         itemDesc = "";
         startBid = maxBid = currentBid = .0;
@@ -34,7 +34,7 @@ public class Item implements Serializable {
         this.maxBid = maxBid;
         this.currentBid = startBid;
         this.auctionTime = auctionTime;
-        this.winnerName = "";
+        this.winnerName = "none";
     }
 
     public void setOwnerName(String val) {

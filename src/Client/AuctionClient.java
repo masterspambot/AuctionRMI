@@ -108,7 +108,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
             }
             for(Item item: ser.getItems()){
                 if(item.getItemName().equals(itemName)){
-                    new WaitAndBid(item, bidderName);
+                    new WaitAndBid(ser, item, bidderName);
                     break;
                 }                    
             }
@@ -131,13 +131,16 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
             System.out.println("Start Bid: " + item.getStartBid());
             System.out.println("Max Bid: " + item.getMaxBid());
             System.out.println("Auction Time: " + item.getAuctionTime());
+            System.out.println("Current Bid: " + item.getCurrentBid());
             System.out.println("Winner: " + item.getWinnerName());
             System.out.println("-----------------------------------------------");
         }
     }
     
     /**
-     * Update method which is called on server side when an item is changed.
+     * Update method which is called on server side when an item is 
+     * changed. Shows on client side info about update and fires proper
+     * strategies.
      * 
      * @param item  The item which was changed
      * @throws RemoteException 
@@ -152,12 +155,13 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
         System.out.println("Start Bid: " + item.getStartBid());
         System.out.println("Max Bid: " + item.getMaxBid());
         System.out.println("Auction Time: " + item.getAuctionTime());
+        System.out.println("Current Bid: " + item.getCurrentBid());
         System.out.println("Winner: " + item.getWinnerName());
         System.out.println("###############################################");
-        if(!item.getWinnerName().matches(bidList.get(item))){
-            if(bidList.containsKey(item.getItemName())){
-                bidOnItem(bidList.get(item), item.getItemName(), item.getCurrentBid()+1);
-                System.out.println("Aution: "+item.getItemName()+" auto-bidded to "+item.getCurrentBid()+1 );
+        if(bidList.containsKey(item.getItemName())){
+            if(!item.getWinnerName().matches(bidList.get(item.getItemName()))){
+                bidOnItem(bidList.get(item.getItemName()), item.getItemName(), item.getCurrentBid()+1.0);
+                System.out.println("Aution: "+item.getItemName()+" auto-bidded to "+item.getCurrentBid()+1.0);
             }
         }
     }
