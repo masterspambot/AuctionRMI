@@ -31,7 +31,12 @@ public class WaitAndBid extends AuctionClient implements ActionListener, Runnabl
         Thread t = new Thread(this);
         t.start();
     }
-
+    
+    /**
+     * Perform bid
+     * 
+     * @param e 
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
@@ -41,7 +46,10 @@ public class WaitAndBid extends AuctionClient implements ActionListener, Runnabl
             Logger.getLogger(WaitAndBid.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    /**
+     * Creates timer in new thread
+     */
     @Override
     public void run() {
         Timer t = new Timer((item.getAuctionTime()-1)*1000, this);
