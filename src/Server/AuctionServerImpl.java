@@ -42,6 +42,7 @@ final class AuctionServerImpl extends Observable implements IAuctionServer{
     
     private static volatile AuctionServerImpl instance = null;
     private ArrayList<Item> items;
+    private static final String authCode = "DFER#CT%$$@GEFXEG";
     
     /** 
      * Singleton pattern implementation.
@@ -79,6 +80,7 @@ final class AuctionServerImpl extends Observable implements IAuctionServer{
     /**
      * Creates a new Item object and adds to the list of items.
      * 
+     * @param authCode  authorisation code
      * @param ownerName owner name
      * @param itemName  item name
      * @param itemDesc  iten description
@@ -88,20 +90,27 @@ final class AuctionServerImpl extends Observable implements IAuctionServer{
      * @throws RemoteException 
      */
     @Override
-    public void placeItemForBid(String ownerName, String itemName, String itemDesc, double startBid, double maxBid, int auctionTime) throws RemoteException {
+    public void placeItemForBid(String authCode, String ownerName, String itemName, String itemDesc, double startBid, double maxBid, int auctionTime) throws RemoteException {
+        if(!authCode.equals(AuctionServerImpl.authCode)){
+            throw new RemoteException("Authorisation error!");
+        }
         items.add(new Item(ownerName, itemName, itemDesc, startBid, maxBid, auctionTime));
     }
     
     /**
      * Bids one Item. If an Item is changed, observers are noitfied.
      * 
+     * @param authCode  authorisation code
      * @param bidderName    name of the bidder
      * @param itemName      name of the item
      * @param bid           value of the bid
      * @throws RemoteException 
      */
     @Override
-    public void bidOnItem(String bidderName, String itemName, double bid) throws RemoteException {
+    public void bidOnItem(String authCode, String bidderName, String itemName, double bid) throws RemoteException {
+        if(!authCode.equals(AuctionServerImpl.authCode)){
+            throw new RemoteException("Authorisation error!");
+        }
         for(Item item:items){
             if(item.getItemName().matches(itemName)){
                 if (item.getCurrentBid() < bid){
@@ -121,23 +130,31 @@ final class AuctionServerImpl extends Observable implements IAuctionServer{
     /**
      * Returns a list of items.
      * 
+     * @param authCode  authorisation code
      * @return ArrayList<Item> list of items
      * @throws RemoteException 
      */
     @Override
-    public ArrayList<Item> getItems() throws RemoteException {
+    public ArrayList<Item> getItems(String authCode) throws RemoteException {
+        if(!authCode.equals(AuctionServerImpl.authCode)){
+            throw new RemoteException("Authorisation error!");
+        }
         return items;
     }
     
     /**
      * Register a client to observe an Item (observer pattern).
      * 
+     * @param authCode  authorisation code
      * @param al       client object
      * @param itemName Item name
      * @throws RemoteException 
      */
     @Override
-    public void registerListener(IAuctionListener al, String itemName) throws RemoteException {
+    public void registerListener(String authCode, IAuctionListener al, String itemName) throws RemoteException {
+        if(!authCode.equals(AuctionServerImpl.authCode)){
+            throw new RemoteException("Authorisation error!");
+        }
         System.out.println("Registered new client for: "+itemName);
         WrappedObserver mo = new WrappedObserver(al, itemName);
         addObserver(mo);

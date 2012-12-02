@@ -23,6 +23,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
     IAuctionServer ser;
     private static final long serialVersionUID = 1L;
     HashMap<String, String> bidList;
+    private static final String authCode = "DFER#CT%$$@GEFXEG";
     
     
     protected AuctionClient() throws RemoteException {
@@ -56,7 +57,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
      * @throws RemoteException 
      */
     public void placeItemForBid(String ownerName, String itemName, String itemDesc, double startBid, double maxBid, int auctionTime) throws RemoteException {
-        ser.placeItemForBid(ownerName, itemName, itemDesc, startBid, maxBid, auctionTime);
+        ser.placeItemForBid(AuctionClient.authCode, ownerName, itemName, itemDesc, startBid, maxBid, auctionTime);
     }
     
     /**
@@ -68,7 +69,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
      * @throws RemoteException 
      */
     public void bidOnItem(String bidderName, String itemName, double bid) throws RemoteException {
-        ser.bidOnItem(bidderName, itemName, bid);
+        ser.bidOnItem(AuctionClient.authCode, bidderName, itemName, bid);
     }
     
     /**
@@ -80,7 +81,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
      * @throws RemoteException 
      */
     public void registerListener(String itemName, Integer strategy) throws RemoteException {
-        ser.registerListener(this, itemName);
+        ser.registerListener(AuctionClient.authCode, this, itemName);
         if(strategy == 1){
             String bidderName = new String();
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -90,7 +91,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
             } catch (IOException ex) {
                 Logger.getLogger(AuctionClient.class.getName()).log(Level.SEVERE, null, ex);
             }
-              for(Item item: ser.getItems()){
+              for(Item item: ser.getItems(AuctionClient.authCode)){
                 if(item.getItemName().equals(itemName)){
                     bidList.put(item.getItemName(),bidderName);
                     break;
@@ -106,7 +107,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
             } catch (IOException ex) {
                 Logger.getLogger(AuctionClient.class.getName()).log(Level.SEVERE, null, ex);
             }
-            for(Item item: ser.getItems()){
+            for(Item item: ser.getItems(AuctionClient.authCode)){
                 if(item.getItemName().equals(itemName)){
                     new WaitAndBid(ser, item, bidderName);
                     break;
@@ -122,7 +123,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
      */
     public void getItems() throws RemoteException {
 
-        ArrayList<Item> items = ser.getItems();
+        ArrayList<Item> items = ser.getItems(AuctionClient.authCode);
 
         for (Item item : items) {
             System.out.println("Owner: " + item.getOwnerName());
@@ -198,6 +199,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
             while (true) {
                 client.printHelp();
+                System.out.print("> ");
                 CurLine = in.readLine();
                 switch (CurLine) {
                     case "1":
@@ -241,12 +243,20 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
             }
         } catch (MalformedURLException ex) {
             System.err.println(args[0] + " is not a valid RMI URL");
+            System.err.println("Quitting the application...");
+            System.exit(1);
         } catch (RemoteException ex) {
-            System.err.println("Remote object threw exception " + ex);
+            System.err.println("Remote object threw exception " + ex.getCause());
+            System.err.println("Quitting the application...");
+            System.exit(1);
         } catch (NotBoundException ex) {
             System.err.println("Could not find the requested remote object on the server");
+            System.err.println("Quitting the application...");
+            System.exit(1);
         } catch (IOException ex) {
             System.err.println("Error while reading input");
+            System.err.println("Quitting the application...");
+            System.exit(1);
         }
     }
 }
