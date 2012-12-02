@@ -185,6 +185,13 @@ final class AuctionServerImpl extends Observable implements IAuctionServer{
         notifyObservers(items.get(0));
     }
     
+    /**
+     * Checks if there is an item with the same itemName. If so, a
+     * RemoteException is throwed.
+     * 
+     * @param name  the name to be check
+     * @throws RemoteException 
+     */
     public void checkUniqueName(String name) throws RemoteException {
         for(Item item:items){
             if(item.getItemName().equals(name)){

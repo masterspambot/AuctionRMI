@@ -24,7 +24,6 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
     private static final long serialVersionUID = 1L;
     HashMap<String, String> bidList;
     private static final String authCode = "DFER#CT%$$@GEFXEG";
-
     
     
     protected AuctionClient() throws RemoteException, IOException {
