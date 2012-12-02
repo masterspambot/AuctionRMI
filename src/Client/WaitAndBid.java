@@ -24,6 +24,7 @@ public class WaitAndBid extends AuctionClient implements ActionListener, Runnabl
      * @param item Item to bid
      * @param bidderName Author of the bid
      * @throws RemoteException
+     * @throws IOException
      */
     public WaitAndBid(IAuctionServer s, Item item, String bidderName) throws RemoteException, IOException{
         this.ser = s;

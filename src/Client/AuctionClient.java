@@ -38,6 +38,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
      * @throws RemoteException
      * @throws MalformedURLException
      * @throws NotBoundException
+     * @throws IOException
      */
     public AuctionClient(String uri) throws RemoteException, MalformedURLException, NotBoundException, IOException {
         super();
@@ -80,6 +81,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
      * @param itemName  Name of the item
      * @param strategy  Strategy of automatic bidding
      * @throws RemoteException 
+     * @throws IOException
      */
     public void registerListener(String itemName, Integer strategy) throws RemoteException, IOException {
         ser.registerListener(AuctionClient.authCode, this, itemName);

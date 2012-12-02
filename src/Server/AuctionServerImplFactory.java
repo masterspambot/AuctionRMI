@@ -15,6 +15,7 @@ public class AuctionServerImplFactory {
      * 
      * @return AuctionServerImpl 
      * @throws RemoteException
+     * @throws IOException
      */
     public static AuctionServerImpl makeAuctionServerImpl() throws RemoteException, IOException {
         return AuctionServerImpl.getInstance();

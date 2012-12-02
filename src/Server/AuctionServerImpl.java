@@ -65,6 +65,7 @@ final class AuctionServerImpl extends Observable implements IAuctionServer{
      * 
      * @return AuctionServerImpl the only object in the application
      * @throws RemoteException 
+     * @throws IOException
      */
     public static AuctionServerImpl getInstance() throws RemoteException, IOException {
         if (instance == null) {
@@ -82,6 +83,7 @@ final class AuctionServerImpl extends Observable implements IAuctionServer{
      * object (singleton pattern).
      * 
      * @throws RemoteException 
+     * @throws IOException
      */
     private AuctionServerImpl() throws RemoteException, IOException {
         super();
