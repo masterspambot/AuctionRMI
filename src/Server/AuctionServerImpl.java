@@ -2,13 +2,10 @@ package Server;
 
 import Client.IAuctionListener;
 import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.FileHandler;
@@ -117,6 +114,7 @@ final class AuctionServerImpl extends Observable implements IAuctionServer{
         if(!authCode.equals(AuctionServerImpl.authCode)){
             throw new RemoteException("Authorisation error!");
         }        
+        checkUniqueName(itemName);
         items.add(new Item(ownerName, itemName, itemDesc, startBid, maxBid, auctionTime));
         logger.log(Level.INFO, "Added new item: {0} by {1}", new Object[]{itemName, ownerName});
     }
@@ -185,5 +183,13 @@ final class AuctionServerImpl extends Observable implements IAuctionServer{
         addObserver(mo);
         setChanged();
         notifyObservers(items.get(0));
+    }
+    
+    public void checkUniqueName(String name) throws RemoteException {
+        for(Item item:items){
+            if(item.getItemName().equals(name)){
+                throw new RemoteException("The name is not unique!");
+            }
+        }
     }
 }
