@@ -1,11 +1,20 @@
 package Server;
 
 import Client.IAuctionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /**
  * Implements server methods responsible for auction system.
@@ -43,6 +52,11 @@ final class AuctionServerImpl extends Observable implements IAuctionServer{
     private static volatile AuctionServerImpl instance = null;
     private ArrayList<Item> items;
     private static final String authCode = "DFER#CT%$$@GEFXEG";
+    private static final String logFileName = "auctionRMI.log";
+    
+    private BufferedWriter logFileWriter;
+    private static final Logger logger = Logger.getLogger("AuctionRMI");
+    private FileHandler loggerFileHandler;
     
     /** 
      * Singleton pattern implementation.
@@ -52,7 +66,7 @@ final class AuctionServerImpl extends Observable implements IAuctionServer{
      * @return AuctionServerImpl the only object in the application
      * @throws RemoteException 
      */
-    public static AuctionServerImpl getInstance() throws RemoteException {
+    public static AuctionServerImpl getInstance() throws RemoteException, IOException {
         if (instance == null) {
             synchronized (AuctionServerImpl.class) {
                 if (instance == null) {
@@ -69,12 +83,19 @@ final class AuctionServerImpl extends Observable implements IAuctionServer{
      * 
      * @throws RemoteException 
      */
-    private AuctionServerImpl() throws RemoteException {
+    private AuctionServerImpl() throws RemoteException, IOException {
         super();
+        this.loggerFileHandler = new FileHandler(logFileName, true);
+        logger.addHandler(this.loggerFileHandler);
+        logger.setLevel(Level.ALL);
+        this.loggerFileHandler.setFormatter(new SimpleFormatter());
+        
         items = new ArrayList<>();
         items.add(new Item("Jan Marcinowski", "Budzik", "Dobry budzik.", 20.0, 30.0, 14));
         items.add(new Item("Piotr Piotrowski", "Laptop", "Kiepski laptop z 2007 roku.", 10.0, 30.0, 30));
         items.add(new Item("Krzysztof Jackowski", "Kubek", "Bardzo pojemny pojemnik na ciecze, zele i zole.", 1.0, 30.0, 30));
+        
+        logger.log(Level.INFO, "Server started");
     }
     
     /**
@@ -93,8 +114,9 @@ final class AuctionServerImpl extends Observable implements IAuctionServer{
     public void placeItemForBid(String authCode, String ownerName, String itemName, String itemDesc, double startBid, double maxBid, int auctionTime) throws RemoteException {
         if(!authCode.equals(AuctionServerImpl.authCode)){
             throw new RemoteException("Authorisation error!");
-        }
+        }        
         items.add(new Item(ownerName, itemName, itemDesc, startBid, maxBid, auctionTime));
+        logger.log(Level.INFO, "Added new item: {0} by {1}", new Object[]{itemName, ownerName});
     }
     
     /**
@@ -121,6 +143,7 @@ final class AuctionServerImpl extends Observable implements IAuctionServer{
                     }
                     setChanged();
                     notifyObservers(item);
+                    logger.log(Level.INFO, "Bidded item: {0} by {1}", new Object[]{itemName, bidderName});
                 }
                 break;
             }

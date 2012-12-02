@@ -4,6 +4,7 @@ import Server.IAuctionServer;
 import Server.Item;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +25,7 @@ public class WaitAndBid extends AuctionClient implements ActionListener, Runnabl
      * @param bidderName Author of the bid
      * @throws RemoteException
      */
-    public WaitAndBid(IAuctionServer s, Item item, String bidderName) throws RemoteException{
+    public WaitAndBid(IAuctionServer s, Item item, String bidderName) throws RemoteException, IOException{
         this.ser = s;
         this.item = item;
         this.bidderName = bidderName;

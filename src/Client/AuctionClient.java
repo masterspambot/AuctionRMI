@@ -24,9 +24,10 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
     private static final long serialVersionUID = 1L;
     HashMap<String, String> bidList;
     private static final String authCode = "DFER#CT%$$@GEFXEG";
+
     
     
-    protected AuctionClient() throws RemoteException {
+    protected AuctionClient() throws RemoteException, IOException {
         super();
     }
 
@@ -38,7 +39,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
      * @throws MalformedURLException
      * @throws NotBoundException
      */
-    public AuctionClient(String uri) throws RemoteException, MalformedURLException, NotBoundException {
+    public AuctionClient(String uri) throws RemoteException, MalformedURLException, NotBoundException, IOException {
         super();
         ro = Naming.lookup(uri);
         ser = (IAuctionServer) ro;
@@ -80,7 +81,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
      * @param strategy  Strategy of automatic bidding
      * @throws RemoteException 
      */
-    public void registerListener(String itemName, Integer strategy) throws RemoteException {
+    public void registerListener(String itemName, Integer strategy) throws RemoteException, IOException {
         ser.registerListener(AuctionClient.authCode, this, itemName);
         if(strategy == 1){
             String bidderName = new String();
@@ -254,7 +255,7 @@ public class AuctionClient extends UnicastRemoteObject implements IAuctionListen
             System.err.println("Quitting the application...");
             System.exit(1);
         } catch (IOException ex) {
-            System.err.println("Error while reading input");
+            System.err.println("Error while IO operation.");
             System.err.println("Quitting the application...");
             System.exit(1);
         }

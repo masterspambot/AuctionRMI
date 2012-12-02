@@ -1,5 +1,6 @@
 package Server;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 /**
@@ -15,7 +16,7 @@ public class AuctionServerImplFactory {
      * @return AuctionServerImpl 
      * @throws RemoteException
      */
-    public static AuctionServerImpl makeAuctionServerImpl() throws RemoteException {
+    public static AuctionServerImpl makeAuctionServerImpl() throws RemoteException, IOException {
         return AuctionServerImpl.getInstance();
     }
 }
